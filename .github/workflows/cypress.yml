@@ -1,0 +1,49 @@
+#  This specific file is used to automate Cypress tests whenever you push code to your repository.
+
+
+# name: Cypress Tests
+
+# on:
+#   push:
+#     branches: [ main, develop ]
+#   pull_request:
+#     branches: [ main, develop ]
+
+# jobs:
+#   cypress-run:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+      
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+#           cache: 'npm'
+      
+#       - name: Install dependencies
+#         run: npm ci
+      
+#       - name: Cypress run
+#         uses: cypress-io/github-action@v5
+#         with:
+#           build: npm run build
+#           start: npm start
+#           wait-on: 'http://localhost:3000'
+#           browser: chrome
+#           record: false
+      
+#       - name: Upload screenshots
+#         uses: actions/upload-artifact@v3
+#         if: failure()
+#         with:
+#           name: cypress-screenshots
+#           path: cypress/screenshots
+      
+#       - name: Upload videos
+#         uses: actions/upload-artifact@v3
+#         if: always()
+#         with:
+#           name: cypress-videos
+#           path: cypress/videos
