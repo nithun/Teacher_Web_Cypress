@@ -5,13 +5,15 @@
 //! ==========================================
 
 // Custom command to visit page and ensure it's loaded
-Cypress.Commands.add("visitAndWaitForLoad", (path = "/teacher") => {
+Cypress.Commands.add("visitAndWaitForLoad", (path = "/") => {
   cy.visit(path, { timeout: 120000 });
   cy.get(".page11-text16", { timeout: 10000 }).should("be.visible");
 });
 
 // Custom command fillPersonalInfo(firstName, lastName, phone, userType) to fill out the personal information form (Step 1)
-Cypress.Commands.add("fillPersonalInfo",(firstName, lastName, phone, userType = "Teacher") => {
+Cypress.Commands.add(
+  "fillPersonalInfo",
+  (firstName, lastName, phone, userType = "Teacher") => {
     cy.get('input[name="firstName"]').type(firstName);
     cy.get('input[name="lastName"]').type(lastName);
     cy.get('input[name="phone"]').type(phone);
@@ -32,13 +34,13 @@ Cypress.Commands.add("fillPersonalInfo",(firstName, lastName, phone, userType = 
 // Custom command to enter OTP (Step 2)
 // Cypress.Commands.add("enterOTP", (otp) => {
 //   const digits = otp.split("");
-  
+
 //   // More robust entry with events
 //   cy.get(".page21-rectangle2 .otp-input").clear().type(digits[0]).trigger('input');
 //   cy.get(".page21-rectangle3 .otp-input").clear().type(digits[1]).trigger('input');
 //   cy.get(".page21-rectangle4 .otp-input").clear().type(digits[2]).trigger('input');
 //   cy.get(".page21-rectangle5 .otp-input").clear().type(digits[3]).trigger('input');
-  
+
 //   // Trigger the last input's change event to notify React
 //   cy.get(".page21-rectangle5 .otp-input").trigger('change');
 // });
@@ -46,31 +48,30 @@ Cypress.Commands.add("fillPersonalInfo",(firstName, lastName, phone, userType = 
 //--------------------------------
 
 //! Custom command to enter OTP digits into the 4-digit OTP input fields
-Cypress.Commands.add('enterOTP', (otp) => {
+Cypress.Commands.add("enterOTP", (otp) => {
   if (!otp || otp.length !== 4) {
-    throw new Error('OTP must be exactly 4 digits');
+    throw new Error("OTP must be exactly 4 digits");
   }
 
   // Focus first input and type each digit with a pause
   cy.get('[data-cy="otp-input-1"]').focus().type(otp[0]);
   cy.wait(250);
-  
+
   cy.get('[data-cy="otp-input-2"]').focus().type(otp[1]);
   cy.wait(250);
-  
+
   cy.get('[data-cy="otp-input-3"]').focus().type(otp[2]);
   cy.wait(250);
-  
+
   cy.get('[data-cy="otp-input-4"]').focus().type(otp[3]);
   cy.wait(250);
-  
+
   // Click outside any input to trigger blur
-  cy.get('body').click(10, 10); // Click at coordinates to avoid hitting any button
+  cy.get("body").click(10, 10); // Click at coordinates to avoid hitting any button
   cy.wait(500);
 });
 
 //--------------------------------
-
 
 // Custom command to select school (Step 3)
 Cypress.Commands.add("selectSchool", (state, district, city, school) => {
@@ -139,7 +140,9 @@ Cypress.Commands.add("confirmRegistration", () => {
 //! ==========================================
 
 // Custom command to mock OTP send API response (including WhatsApp integration)
-Cypress.Commands.add("mockOTPSend",(status = "success", phone = "1234567890") => {
+Cypress.Commands.add(
+  "mockOTPSend",
+  (status = "success", phone = "1234567890") => {
     cy.intercept("POST", "**/api/method/tap_lms.api.send_otp", (req) => {
       // Capture the actual request body for validation if needed
       const requestBody = req.body;
@@ -175,6 +178,24 @@ Cypress.Commands.add("mockOTPVerify", (status = "success") => {
   }).as("verifyOTP");
 });
 
+//TODO: command for teacher already reagistered testcase
+Cypress.Commands.add("mockOTPSendAlreadyRegistered", () => {
+  cy.intercept("POST", "**/api/method/tap_lms.api.send_otp", (req) => {
+    req.reply({
+      statusCode: 409,
+      body: {
+        message: {
+          status: "failure",
+          code: "ALREADY_IN_BATCH",
+          teacher_id: "TAP54321",
+          batch_id: "BA001",
+          message: "You are already registered for this batch",
+        },
+      },
+    });
+  }).as("sendOTP"); // Use the same alias as your working command
+});
+
 // Custom command to mock schools list API response
 Cypress.Commands.add("mockSchoolsList", (hasSchools = true) => {
   cy.intercept("POST", "**/api/method/tap_lms.api.list_schools", {
@@ -183,7 +204,7 @@ Cypress.Commands.add("mockSchoolsList", (hasSchools = true) => {
       ? {
           status: "success",
           schools: [
-            { school_name: "Test School 1" },
+            { school_name: "Green Valley School" },
             { school_name: "Test School 2" },
             { school_name: "Test School 3" },
           ],
@@ -196,7 +217,9 @@ Cypress.Commands.add("mockSchoolsList", (hasSchools = true) => {
 });
 
 // Custom command to mock teacher registration API response
-Cypress.Commands.add("mockTeacherRegistration",(status = "success", teacherId = "TAP12345") => {
+Cypress.Commands.add(
+  "mockTeacherRegistration",
+  (status = "success", teacherId = "TAP12345") => {
     cy.intercept("POST", "**/api/method/tap_lms.api.create_teacher_web", {
       statusCode: 200,
       body: {
@@ -229,7 +252,7 @@ Cypress.Commands.add("mockCitiesList", () => {
           OTTAPALAM: "OTTAPALAM",
           PATTAMBI: "PATTAMBI",
           SHORANUR: "SHORANUR",
-          PALAKKAD: "PALAKKAD",
+          Varanasi: "PALAKKAD",
         },
       },
     },
@@ -237,7 +260,9 @@ Cypress.Commands.add("mockCitiesList", () => {
 });
 
 // Custom command to mock WhatsApp keyword API response
-Cypress.Commands.add("mockWhatsAppKeyword",(useCase = "teacher_web_signup_success") => {
+Cypress.Commands.add(
+  "mockWhatsAppKeyword",
+  (useCase = "teacher_web_signup_success") => {
     cy.intercept("POST", "**/api/method/tap_lms.api.get_whatsapp_keyword", {
       statusCode: 200,
       body: {
@@ -293,10 +318,6 @@ Cypress.Commands.add("useRealAPIs", (useReal = true) => {
     cy.mockWhatsAppKeyword();
   }
 });
-
-
-
-
 
 //TODO This custom command will call our Cypress task "fetchOTPFromWA"
 Cypress.Commands.add("fetchOTPFromWA", () => {

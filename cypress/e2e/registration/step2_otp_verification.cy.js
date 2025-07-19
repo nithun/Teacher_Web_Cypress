@@ -3,11 +3,14 @@ describe("Teacher Registration - Step 2: OTP Verification", () => {
 
   beforeEach(() => {
     // Set up API mocks (excluding OTP APIs which use real endpoints)
-    cy.mockCitiesList();
-    cy.mockSchoolsList();
-    cy.mockTeacherRegistration();
-    cy.mockWhatsAppKeyword();
-    cy.useRealAPIs(false);
+    // cy.mockCitiesList();
+    // cy.mockSchoolsList();
+    // cy.mockTeacherRegistration();
+    // cy.mockWhatsAppKeyword();
+
+
+    
+    cy.useRealAPIs(true);
 
     // Visit the page teacher register page with a longer timeout
     cy.visitAndWaitForLoad();
@@ -277,4 +280,4 @@ describe("Teacher Registration - Step 2: OTP Verification", () => {
   });
 });
 
-//- DONE FOR NEW UI
+//- DONE for live server

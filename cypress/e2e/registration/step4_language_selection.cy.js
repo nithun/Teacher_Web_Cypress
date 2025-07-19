@@ -55,13 +55,21 @@ describe("Teacher Registration - Step 4: Language Selection", () => {
   };
 
   beforeEach(() => {
+
     cy.visitAndWaitForLoad();
-    cy.mockCitiesList();
-    cy.mockSchoolsList();
-    cy.useRealAPIs(false);
+
+
+    // cy.mockCitiesList();
+    // cy.mockSchoolsList();
+
+
+    cy.useRealAPIs(true);
+
+
 
     const phoneNumber = Cypress.env("OTP_DESTINATION_NUMBER").slice(2);
     cy.fillPersonalInfo("Arjun", "M S", phoneNumber);
+
 
     sendFreshOTP().then(() => {
       fetchLatestOTP().then((otp) => {
@@ -95,24 +103,24 @@ describe("Teacher Registration - Step 4: Language Selection", () => {
         // Complete school selection
         cy.get('[data-cy="state-dropdown"] .react-select-container').click();
         cy.get(".react-select__menu").should("be.visible");
-        cy.get(".react-select__option").contains("KERALA").click();
+        cy.get(".react-select__option").contains("UTTAR PRADESH").click();
 
         cy.get('[data-cy="district-dropdown"] .react-select-container').click();
         cy.get(".react-select__menu").should("be.visible");
-        cy.get(".react-select__option").contains("Palakkad").click();
+        cy.get(".react-select__option").contains("Varanasi").click();
 
         // Wait for cities to load
         cy.wait("@listCities");
 
         cy.get('[data-cy="city-dropdown"] .react-select-container').click();
         cy.get(".react-select__menu").should("be.visible");
-        cy.get(".react-select__option").contains("VANIYAMKULAM").click();
+        cy.get(".react-select__option").contains("City 1:Varanasi").click();
 
         cy.wait("@listSchools");
 
         cy.get('[data-cy="school-dropdown"] .react-select-container').click();
         cy.get(".react-select__menu").should("be.visible");
-        cy.get(".react-select__option").contains("Test School 1").click();
+        cy.get(".react-select__option").contains("Green Valley School").click();
 
         cy.get("button.page11-group2").click();
 
@@ -234,6 +242,4 @@ describe("Teacher Registration - Step 4: Language Selection", () => {
   });
 });
 
-//- DONE FOR THE NEW UI
-
-
+//- DONE for live server

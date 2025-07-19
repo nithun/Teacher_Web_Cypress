@@ -3,7 +3,7 @@ describe("Teacher Registration - Step 1: Personal Information", () => {
   // A hook that run before every testcase
   beforeEach(() => {
     // Use real APIs for OTP
-    cy.useRealAPIs(false);
+    cy.useRealAPIs(true);
 
     // Visit the page teacher register page with a longer timeout
     cy.visitAndWaitForLoad();
@@ -72,4 +72,4 @@ describe("Teacher Registration - Step 1: Personal Information", () => {
   });
 });
 
-//- DONE - for new UI
+//- DONE - for LIVE SERVER

@@ -1,35 +1,35 @@
 {
-    "validTeacher": {
-      "firstName": "John",
-      "lastName": "Doe",
-      "phone": "9876543210",
-      "userType": "teacher",
-      "state": "Maharashtra",
-      "district": "Mumbai",
-      "city": "Mumbai",
-      "school": "Test School 1",
-      "language": "english"
-    },
-    "invalidTeacher": {
-      "firstName": "",
-      "lastName": "",
-      "phone": "123",
-      "userType": "",
-      "state": "",
-      "district": "",
-      "city": "",
-      "school": "",
-      "language": ""
-    },
-    "existingTeacher": {
-      "firstName": "Jane",
-      "lastName": "Smith",
-      "phone": "9876543211",
-      "userType": "teacher",
-      "state": "Karnataka",
-      "district": "Bangalore",
-      "city": "Bangalore",
-      "school": "Test School 2",
-      "language": "hindi"
-    }
+  "validTeacher": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "phone": "9876543210",
+    "userType": "teacher",
+    "state": "Maharashtra",
+    "district": "Mumbai",
+    "city": "Mumbai",
+    "school": "Green Valley School",
+    "language": "english"
+  },
+  "invalidTeacher": {
+    "firstName": "",
+    "lastName": "",
+    "phone": "123",
+    "userType": "",
+    "state": "",
+    "district": "",
+    "city": "",
+    "school": "",
+    "language": ""
+  },
+  "existingTeacher": {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "phone": "9876543211",
+    "userType": "teacher",
+    "state": "Karnataka",
+    "district": "Bangalore",
+    "city": "Bangalore",
+    "school": "Test School 2",
+    "language": "hindi"
   }
+}
